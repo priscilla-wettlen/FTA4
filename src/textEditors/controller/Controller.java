@@ -5,31 +5,41 @@ import textEditors.view.MainFrame;
 import textEditors.view.MainPanel;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Controller
-{
+public class Controller{
     private List<String> sourceStrings;
     private File selectedFile;
     private MainFrame view;
+    private SharedBuffer sharedBuffer;
+    private int index = 0;
+
 
     public Controller() {
         view = new MainFrame(this);
+        this.sharedBuffer = new SharedBuffer(this);
     }
 
-
-    public void execute( String[] lines, String find, String replace) {
-
+    public void execute( List<String> lines, String find, String replace) throws InterruptedException {
+        Writer writer = new Writer(selectedFile, this, sharedBuffer);
+        new Thread(writer).start();
+        Modifier modifier = new Modifier(sharedBuffer, lines, index);
+        new Thread(modifier).start();
         view.markWord(find);//create a buffer
+        sharedBuffer.write(replace);
+        System.out.println("replaced with word "+replace);
+        sharedBuffer.read(lines);
+        //System.out.println(lines);
 
      }
 
 
-    public void setSourceText(List<String> lines)
+    public void setSourceText(List<String> sourceStrings)
     {
-        view.setSourceText(lines);
+        view.setSourceText(sourceStrings);
     }
 
     public void loadFile() {
@@ -39,10 +49,6 @@ public class Controller
         new Thread(reader).start();
     }
 
-//    public void startReader(){
-//        Reader reader = new Reader(selectedFile);
-//        new Thread(reader).start();
-//    }
 
 
 

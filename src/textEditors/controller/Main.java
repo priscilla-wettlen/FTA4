@@ -2,6 +2,7 @@ package textEditors.controller;
 
 import textEditors.model.FileManager;
 import textEditors.model.Reader;
+import textEditors.model.SharedBuffer;
 
 import java.io.File;
 

@@ -12,6 +12,7 @@ import java.util.List;
 public class Reader implements Runnable{
     private final File file;
     private Controller controller;
+    private SharedBuffer sharedBuffer;
 
     public Reader(File file, Controller controller) {
         this.file = file;
@@ -29,6 +30,7 @@ public class Reader implements Runnable{
             String line;
             while ((line = bufferedReader.readLine()) != null) {
                 lines.add(line + "\n");
+
             }
         }catch(IOException e){
             e.printStackTrace();

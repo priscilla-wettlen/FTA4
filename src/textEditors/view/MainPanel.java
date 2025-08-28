@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainPanel extends JPanel {
@@ -71,7 +73,13 @@ public class MainPanel extends JPanel {
         btnLoadFile.addActionListener(e -> updateSource());
 
 
-        btnFindReplace.addActionListener(e -> onFindReplace());
+        btnFindReplace.addActionListener(e -> {
+            try {
+                onFindReplace();
+            } catch (InterruptedException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         pnlFindReplace.add(btnFindReplace);
 
          add(pnlFindReplace, BorderLayout.NORTH);
@@ -94,11 +102,9 @@ public class MainPanel extends JPanel {
         pnlSouth.addTestItems();
         add(pnlSouth, BorderLayout.SOUTH);
     }
-    private void onFindReplace()
-    {
-
-        controller.execute(taSource.getText().split("\n"), tfFind.getText(), tfReplaceWith.getText());
-
+    private void onFindReplace() throws InterruptedException {
+        List<String> lines = new ArrayList<>(Arrays.asList(taSource.getText().split("\n")));
+        controller.execute(lines, tfFind.getText(), tfReplaceWith.getText());
     }
 
     //method that marks all the words that contain the string we want to replace

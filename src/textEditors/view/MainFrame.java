@@ -21,7 +21,7 @@ public class MainFrame extends JFrame
     private void ShowMainFrame()
     {
         mainPanel = new MainPanel(controller, width, height);
-        JFrame frame = new JFrame("Text File Editor <by your name>");
+        JFrame frame = new JFrame("Text File Editor");
         frame.add(mainPanel);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
