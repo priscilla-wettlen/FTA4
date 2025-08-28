@@ -11,10 +11,10 @@ public class Writer implements Runnable{
     private Controller controller;
     private SharedBuffer sharedBuffer;
 
-    public Writer(File file, Controller controller, SharedBuffer sharedBuffer) {
+    public Writer(File file, Controller controller) {
         this.file = file;
         this.controller = controller;
-        this.sharedBuffer = sharedBuffer;
+        this.sharedBuffer = new SharedBuffer(controller);
     }
 
     @Override

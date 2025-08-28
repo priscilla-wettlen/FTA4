@@ -15,7 +15,7 @@ public class Controller{
     private File selectedFile;
     private MainFrame view;
     private SharedBuffer sharedBuffer;
-    private int index = 0;
+    private int index;
 
 
     public Controller() {
@@ -24,7 +24,7 @@ public class Controller{
     }
 
     public void execute( List<String> lines, String find, String replace) throws InterruptedException {
-        Writer writer = new Writer(selectedFile, this, sharedBuffer);
+        Writer writer = new Writer(selectedFile, this);
         new Thread(writer).start();
         Modifier modifier = new Modifier(sharedBuffer, lines, index);
         new Thread(modifier).start();
